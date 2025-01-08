@@ -1,15 +1,29 @@
-const fs = require('fs').promises;
-const path = require('path');
+const mongoose = require("mongoose");
+const { mongoUri } = require("../config");
 
-const DB_PATH = path.join(__dirname, '../data/db.json');
 
-async function readDb() {
-  const data = await fs.readFile(DB_PATH, 'utf8');
-  return JSON.parse(data);
+function makeNewConnection(uri) {
+  const db = mongoose.createConnection(uri, {});
+
+  db.on("error", function (error) {
+    console.log(`MongoDB :: connection ${this.name} ${JSON.stringify(error)}`);
+    db.close().catch(() =>
+      console.log(`MongoDB :: failed to close connection ${this.name}`)
+    );
+  });
+
+  db.on("connected", function () {
+    mongoose.set("debug", function (col, method, query, doc) {});
+    console.log(`MongoDB :: connected ${this.name}`);
+  });
+
+  db.on("disconnected", function () {
+    console.log(`MongoDB :: disconnected ${this.name}`);
+  });
+
+  return db;
 }
 
-async function writeDb(data) {
-  await fs.writeFile(DB_PATH, JSON.stringify(data, null, 2));
-}
+const conn = makeNewConnection(mongoUri);
 
-module.exports = { readDb, writeDb };
+module.exports = { conn };

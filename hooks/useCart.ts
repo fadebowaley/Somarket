@@ -25,6 +25,7 @@ export const useCart = () => {
     setTotal(newTotal);
   }, [items]);
 
+
   const addToCart = (product: Product, quantity: number = 1) => {
     setItems(current => {
       const existingItem = current.find(item => item.id === product.id);

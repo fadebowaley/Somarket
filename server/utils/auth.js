@@ -1,24 +1,39 @@
 const jwt = require('jsonwebtoken');
+const { jwtSecret, tokenExpiry } = require("../config");
 
-const JWT_SECRET = 'your-secret-key';
 
 function generateToken(user) {
-  return jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, { expiresIn: '24h' });
+  return jwt.sign(
+    { id: user.id, email: user.email, role: user.role },
+    jwtSecret,
+    { expiresIn: tokenExpiry }
+  );
 }
 
-function verifyToken(req, res, next) {
-  const token = req.headers.authorization?.split(' ')[1];
-  
+
+function getTokenFromHeader(req) {
+  const authHeader = req.headers.authorization || "";
+  if (authHeader.startsWith("Bearer ")) {
+    return authHeader.split(" ")[1];
+  }
+  return null;
+}
+
+
+async function verifyToken(req, res, next) {
+  const token = getTokenFromHeader(req);
   if (!token) {
-    return res.status(401).json({ error: 'No token provided' });
+    return res.status(401).json({ error: "Access denied: No token provided" });
   }
 
   try {
-    const decoded = jwt.verify(token, JWT_SECRET);
+    const decoded = await jwt.verify(token, jwtSecret);
     req.user = decoded;
     next();
   } catch (error) {
-    res.status(401).json({ error: 'Invalid token' });
+    const message =
+      error.name === "TokenExpiredError" ? "Token expired" : "Invalid token";
+    res.status(401).json({ error: `Access denied: ${message}` });
   }
 }
 

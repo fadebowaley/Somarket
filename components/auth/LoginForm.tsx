@@ -6,26 +6,29 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
+import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const { login } = useAuth();
   const { toast } = useToast();
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await login(email, password);
+      const user = await login(email, password);
       toast({
-        title: 'Success',
-        description: 'Successfully logged in!',
+        title: "Welcome back!",
+        description: `Successfully logged in as ${user.name}`,
       });
+      router.push("/"); // Redirect to home page
     } catch (error) {
       toast({
-        title: 'Error',
-        description: 'Invalid credentials',
-        variant: 'destructive',
+        title: "Error",
+        description: "Invalid credentials",
+        variant: "destructive",
       });
     }
   };

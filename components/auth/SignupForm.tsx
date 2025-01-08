@@ -10,14 +10,15 @@ import { useToast } from '@/hooks/use-toast';
 export default function SignupForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
+  const [firstname, setFName] = useState('');
+  const [lastname, setLName] = useState('');
   const { signup } = useAuth();
   const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await signup(email, password, name);
+      await signup(email, password, firstname, lastname);
       toast({
         title: 'Success',
         description: 'Account created successfully!',
@@ -38,9 +39,18 @@ export default function SignupForm() {
         <div>
           <Input
             type="text"
-            placeholder="Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            placeholder="FirstName"
+            value={firstname}
+            onChange={(e) => setFName(e.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <Input
+            type="text"
+            placeholder="LastName"
+            value={lastname}
+            onChange={(e) => setLName(e.target.value)}
             required
           />
         </div>

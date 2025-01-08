@@ -7,10 +7,20 @@ export async function loginUser(email: string, password: string) {
   return { user };
 }
 
-export async function signupUser(email: string, password: string, name: string) {
-  const response = await api.post('/auth/register', { email, password, name });
+export async function signupUser(
+  email: string,
+  password: string,
+  firstname: string,
+  lastname: string
+) {
+  const response = await api.post("/auth/register", {
+    email,
+    password,
+    firstname,
+    lastname,
+  });
   const { token, user } = response.data;
-  localStorage.setItem('token', token);
+  localStorage.setItem("token", token);
   return { user };
 }
 

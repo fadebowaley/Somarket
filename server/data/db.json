@@ -1,16 +1,16 @@
 {
   "users": [
     {
-      "id": "1736026582751",
-      "email": "test@mail.com",
-      "name": "ademola",
-      "password": "$2a$10$8B21XtN1mBlL3wXC4ajEe.kvb/N.HLX0.MKQBu6Vh8XmQMBddCFFa"
+      "id": "1736337247643",
+      "email": "test@gmail.com",
+      "name": "Ademola",
+      "password": "$2a$10$sW5lfA.fnreWiwC2ifnMeef8xajdXuJZvRVbOIEd0HXSjlyh5N3Ui"
     },
     {
-      "id": "1736031480918",
-      "email": "des@mail.com",
-      "name": "adewale",
-      "password": "$2a$10$0BKqLzqcRhZqA.PDXHReMOl8zJ15N/H8Dj3VyAg94YTdz/V3uArOG"
+      "id": "1736337954267",
+      "email": "super@gmail.com",
+      "name": "Adebowale Ademola ",
+      "password": "$2a$10$k0v2vLGeR019GNFf6WhBT.jiHL7v8b8xlNeLQjnri0f89eIg35/V6"
     }
   ],
   "products": [

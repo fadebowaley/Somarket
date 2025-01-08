@@ -5,35 +5,44 @@ import { User } from '@/lib/types';
 import { loginUser, signupUser, checkSession } from '@/lib/api/auth';
 
 export const useAuth = () => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState <User | null>(null);
   const [loading, setLoading] = useState(true);
 
+  //functon to create login Api
   const login = async (email: string, password: string) => {
     try {
       const { user } = await loginUser(email, password);
       setUser(user);
       return user;
     } catch (error) {
-      console.error('Login error:', error);
+      console.error("Login error:", error);
       throw error;
     }
   };
 
-  const signup = async (email: string, password: string, name: string) => {
+  //function to create signup Api
+  const signup = async (
+    email: string,
+    password: string,
+    firstname: string,
+    lastname: string
+  ) => {
     try {
-      const { user } = await signupUser(email, password, name);
+      const { user } = await signupUser(email, password, firstname, lastname);
       setUser(user);
       return user;
     } catch (error) {
-      console.error('Signup error:', error);
+      console.error("Signup error:", error);
       throw error;
     }
   };
 
+  // function to logout
   const logout = () => {
     setUser(null);
   };
 
+  //first time when page loads
   useEffect(() => {
     const initAuth = async () => {
       try {
